@@ -2,6 +2,7 @@
 The combination of quantities is dependent on the compatibilities
 of their units."""
 
+import units
 from units.compatibility import compatible
 from units.exception import IncompatibleUnitsError
 
@@ -9,12 +10,14 @@ class Quantity(object):
     """A number with a unit attached."""
 
     def __new__(cls, num, unit):
-        if hasattr(unit, 'is_si'):
+        if hasattr(unit, 'is_si') or type(unit) is str:
             return super(Quantity, cls).__new__(cls)
         else:
             return num * unit
 
     def __init__(self, num, unit):
+        if type(unit) is str:
+            unit = units.unit(unit)
         self._num, self._unit = num, unit
 
     def __getnewargs__(self):
