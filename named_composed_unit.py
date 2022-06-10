@@ -3,6 +3,7 @@
 from units.abstract import AbstractUnit
 from units.composed_unit import ComposedUnit
 from units.registry import REGISTRY
+from units.quantity import Quantity
 
 class NamedComposedUnit(AbstractUnit):
     """A NamedComposedUnit is a composed unit with its own symbol."""
@@ -53,7 +54,13 @@ class NamedComposedUnit(AbstractUnit):
         return self.composed_unit.squeeze()
 
     def __mul__(self, other):
-        return ComposedUnit([self, other], [])
+        if not issubclass(type(other),AbstractUnit):
+            return Quantity(other,self)
+        else:
+            return ComposedUnit([self, other], [])
+
+    def __rmul__(self,other):
+        return self.__mul__(other)
 
     def __truediv__(self, other):
         return ComposedUnit([self], [other])

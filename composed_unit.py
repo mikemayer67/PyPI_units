@@ -4,6 +4,7 @@ Utility methods here for working with abstract fractions."""
 
 from units.abstract import AbstractUnit
 from units.compatibility import compatible
+from units.quantity import Quantity
 
 def unbox(numer, denom, multiplier):
     """Attempts to convert the fractional unit represented by the parameters
@@ -159,6 +160,9 @@ class ComposedUnit(AbstractUnit):
         return self.multiplier
 
     def __mul__(self, other):
+        if not issubclass(type(other),AbstractUnit):
+            return Quantity(other,self)
+
         if hasattr(other, "numer"):
             assert hasattr(other, "denom")
             return ComposedUnit(self.numer + other.numer,
@@ -168,6 +172,8 @@ class ComposedUnit(AbstractUnit):
             return ComposedUnit(self.numer + [other],
                                 self.denom,
                                 self.squeeze())
+    def __rmul__(self,other):
+        return self.__mul__(other)
 
     def invert(self):
         """Return (this unit)^-1."""

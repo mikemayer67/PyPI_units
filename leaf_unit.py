@@ -4,6 +4,7 @@ They are not compatible with any other kind of unit."""
 from units.abstract import AbstractUnit
 from units.registry import REGISTRY
 from units.composed_unit import ComposedUnit
+from units.quantity import Quantity
 
 class LeafUnit(AbstractUnit):
     """Leaf units are not compatible with other units, but they can be
@@ -52,10 +53,16 @@ class LeafUnit(AbstractUnit):
                 ")")
 
     def __mul__(self, other):
+        if not issubclass(type(other),AbstractUnit):
+            return Quantity(other,self)
+
         if hasattr(other, "numer"):
             return other * self
         else:
             return ComposedUnit([self, other], [])
+
+    def __rmul__(self,other):
+        return self.__mul__(other)
 
     def __truediv__(self, other):
         if hasattr(other, "invert"):
