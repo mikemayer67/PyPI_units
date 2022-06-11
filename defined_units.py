@@ -1,9 +1,12 @@
 """Currently Defined Units"""
 import units
 from units.leaf_unit import LeafUnit
+from units.predefined import define_units
 
 class DefinedUnits(object):
-    def __init__(self):
+    def __init__(self, load=True):
+        if load:
+            define_units()
         for k,v in units.REGISTRY.items():
             setattr(self,k,v)
 
