@@ -119,6 +119,9 @@ class ComposedUnit(AbstractUnit):
             (self.orig_numer, self.orig_denom, self.orig_multiplier)
         )
 
+    def simplify(self):
+        return ComposedUnit(self.numer, self.denom, self.multiplier)
+
     def str_includes_multiplier(self):
         return self.orig_multiplier == 1
 

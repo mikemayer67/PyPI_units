@@ -23,6 +23,9 @@ class Quantity(object):
     def __getnewargs__(self):
         return (self._num, self._unit)
 
+    def simplify(self):
+        return Quantity(self._num, self._unit.simplify())
+
     def get_num(self):
         """The scalar number of this quantity"""
         return self._num

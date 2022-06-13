@@ -4,6 +4,8 @@ from units.leaf_unit import LeafUnit
 from units.named_composed_unit import NamedComposedUnit
 from units import unit, named_unit, scaled_unit
 
+from numpy import pi as np_pi
+
 def define_units():
     """Define built-in units.
 
@@ -46,6 +48,8 @@ def define_complex_si_units():
     """
     for sym in ["rad", "sr"]:
         LeafUnit(sym, is_si=True)
+
+    scaled_unit('deg', 'rad', np_pi / 180.)
 
     named_unit("Hz", [], ["s"]) #hertz
     named_unit("N", ["m", "kg"], ["s", "s"]) #Newton
@@ -130,6 +134,8 @@ def define_imperial_units():
     # nautical scaled_unit measures
     scaled_unit('NM', 'm', 1852) # Nautical mile
     scaled_unit('cable', 'NM', 0.1)
+
+    scaled_unit('nmi', 'NM', 1.0)
 
     # chain measure
     scaled_unit('li', 'inch', 7.92) # link

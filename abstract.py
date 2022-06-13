@@ -22,6 +22,11 @@ class AbstractUnit(object):
         else:
             raise IncompatibleUnitsError()
 
+    def simplify(self):
+        """Return a simplified version of the unit"""
+        # default method does nothig
+        return self
+
     def canonical(self):
         """Return an immutable, comparable derivative of this unit"""
         raise NotImplementedError
